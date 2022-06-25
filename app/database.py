@@ -1,5 +1,5 @@
 import pymongo
-import exporter
+from . import exporter
 
 cluster = pymongo.MongoClient(exporter.cluster)
 db = cluster[exporter.db_name]

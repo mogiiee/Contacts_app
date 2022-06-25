@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-import crud,responses
+from . import crud,responses
 from pydantic import BaseModel
 from typing import Union
 from fastapi.encoders import jsonable_encoder
