@@ -18,9 +18,8 @@ def updater(WrongValue,CorrectValue):
 
 def get_all_data():
     response =database.collection.find({})
-    li_response = list(response)
-    return li_response
-
+    return list(response)
+        
 
 def delete_all():
     database.collection.delete_many({})

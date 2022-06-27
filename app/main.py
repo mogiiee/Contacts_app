@@ -4,31 +4,8 @@ from pydantic import BaseModel
 from typing import Union
 from fastapi.encoders import jsonable_encoder
 from bson.objectid import ObjectId
-from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
-
-
-
-origins = [
-    "http://localhost.tiangolo.com",
-    "https://localhost.tiangolo.com",
-    "http://localhost",
-    "http://localhost:8080",
-    "http://localhost:3000",
-]
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
-
-
-
 
 class details(BaseModel):
     first_name: str
@@ -37,7 +14,7 @@ class details(BaseModel):
 
 @app.get("/")
 async def root():
-    return {"message": "Hello World"}
+    return {"message": "Hello people from SwiftSKU"}
 
 @app.post("/inserter")
 async def inserter(item: details):
@@ -45,7 +22,6 @@ async def inserter(item: details):
 
     try:
         crud.insterter(payload)
-        print(type(payload))
         return responses.ResponseStruct(True, "Inserted" , str(item))
     except Exception as e:
         return responses.ResponseStruct(False, str(e),None)
@@ -53,15 +29,21 @@ async def inserter(item: details):
 
 @app.get("/get_all_data")
 async def Get_all_data():
-    response = crud.get_all_data()
-    return responses.ResponseStruct(True, None,str(response))
+    try:
+        response = crud.get_all_data()
+        return responses.ResponseStruct(True, None, str(response))
+    except Exception as e:
+        return responses.ResponseStruct(False, str(e),"something went wrong please try again")
 
 
 
 @app.patch("/update")
 async def update(id, item : details):
-    crud.updater({'_id':ObjectId(id)},{'$set':{'first_name':item.first_name, 'last_name': item.last_name, "phone_number": item.phone_number}})
-    return responses.ResponseStruct(True, " changed ",id + " changed to " + str(item))
+    try:
+        crud.updater({'_id':ObjectId(id)},{'$set':{'first_name':item.first_name, 'last_name': item.last_name, "phone_number": item.phone_number}})
+        return responses.ResponseStruct(True, " changed ",id + " changed to " + str(item))
+    except Exception as e:
+        return responses.ResponseStruct(False, str(e),"something went wrong please try again")
 
 
 
