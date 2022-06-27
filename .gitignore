@@ -1,4 +1,4 @@
 virtualenv
 .env
 ops.py
-Dockerfile
+.DS_Store
