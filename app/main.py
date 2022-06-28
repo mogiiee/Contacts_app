@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from . import crud,responses
+from . import crud,responses, ops
 from pydantic import BaseModel
 from typing import Union
 from fastapi.encoders import jsonable_encoder
@@ -44,6 +44,14 @@ async def update(id, item : details):
         return responses.ResponseStruct(True, " changed ",id + " changed to " + str(item))
     except Exception as e:
         return responses.ResponseStruct(False, str(e),"something went wrong please try again")
+
+@app.get("/search")
+async def Search(query, limit, page):
+    try:
+        results = ops.Search(query, limit, page)
+        return results
+    except Exception as e:
+        return responses.ResponseStruct(False, str(e), None)
 
 
 

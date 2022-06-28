@@ -1,4 +1,3 @@
 virtualenv
 .env
-ops.py
 .DS_Store
